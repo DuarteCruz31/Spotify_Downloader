@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Spotify Playlist Downloader</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #282c34;
+      }
+
+      .form-check-label {
+        color: #fff;
+      }
+
+      .btn-secondary {
+        margin-top: 2rem;
+      }
+
+      h1 {
+        color: #fff;
+        margin: 2rem auto;
+      }
+    </style>
+  </head>
+  <body class="container">
+    <button onclick="window.history.back();" class="btn btn-secondary">
+      Voltar
+    </button>
+    <h1 class="text-center">Spotify Playlist Downloader</h1>
+    <form action="http://your_ip_address:5000/download_playlist" method="post">
+      {% for track in tracks %}
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="{{ track }}"
+          name="tracks"
+          value="{{ track }}"
+        />
+        <label class="form-check-label" for="{{ track }}">{{ track }}</label>
+      </div>
+      {% endfor %}
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          id="select_all"
+          name="select_all"
+        />
+        <label class="form-check-label" for="select_all">Select All</label>
+      </div>
+      <button type="submit" id="downloadButton" class="btn btn-primary mt-2">
+        Download
+      </button>
+      <span
+        id="loadingSpinner"
+        class="spinner-border spinner-border-sm"
+        role="status"
+        aria-hidden="true"
+        style="display: none"
+      ></span>
+      <span id="loadingText" style="display: none text-white"
+        >Downloading...</span
+      >
+    </form>
+    <script>
+      document.getElementById("select_all").onclick = function () {
+        var checkboxes = document.getElementsByName("tracks");
+        for (var i = 0; i < checkboxes.length; i++) {
+          checkboxes[i].checked = this.checked;
+        }
+      };
+
+      document.querySelector("form").addEventListener("submit", function () {
+        document.getElementById("downloadButton").disabled = true;
+        document.getElementById("loadingSpinner").style.display =
+          "inline-block";
+        document.getElementById("loadingText").style.display = "inline-block";
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Spotify Playlist Downloader</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #282c34;
+      }
+
+      .card {
+        background-color: #3a3f48;
+        color: #fff;
+        border: none;
+      }
+
+      .card-header,
+      .card-body {
+        color: #fff;
+      }
+
+      .input-icon {
+        position: relative;
+      }
+
+      .input-icon > i {
+        position: absolute;
+        display: block;
+        transform: translate(0, -50%);
+        right: 10px;
+        top: 50%;
+        z-index: 4;
+      }
+
+      #urlFeedback {
+        color: red;
+      }
+
+      #playlist-link:valid {
+        color: green;
+      }
+    </style>
+  </head>
+  <body class="container py-5">
+    <h1 class="text-center mb-5 text-white">Spotify Downloader</h1>
+    <div class="card">
+      <div class="card-header">What's this?</div>
+      <div class="card-body">
+        <p class="card-text">
+          A simple web tool that allows you to download songs from Spotify. You
+          can download a song either by entering a track, album, or playlist
+          link. You can also download the entire album or playlist in ZIP
+          format. It also adds all the metadata like cover image, artists, and
+          release date in the downloaded songs. Show, Podcast, and Artist page
+          links aren't supported yet.
+        </p>
+        <p class="card-text">
+          Note: We don't host any copyrighted material. We use 3rd parties to
+          serve our users with the materials they desire. We aren't supposed to
+          be held responsible for anything.
+        </p>
+      </div>
+    </div>
+    <form
+      action="http://your_ip_address:5000/playlist_link"
+      method="post"
+      class="form-group mt-5"
+      id="spotify-form"
+    >
+      <label for="playlist-link" class="text-white"
+        >Enter a Spotify link that you would like to download tracks from.
+        Artist & podcast links aren't supported.</label
+      ><br />
+      <div class="input-icon">
+        <input
+          type="text"
+          id="playlist-link"
+          name="playlist-link"
+          class="form-control"
+          required
+          pattern="https?://.*spotify.com.*"
+        /><br />
+        <i id="inputIcon"></i>
+      </div>
+      <div id="urlFeedback"></div>
+      <input type="submit" value="Submit" class="btn btn-primary" />
+    </form>
+
+    <script>
+      var form = document.getElementById("spotify-form");
+      var input = document.getElementById("playlist-link");
+      var icon = document.getElementById("inputIcon");
+      var feedback = document.getElementById("urlFeedback");
+
+      input.addEventListener("input", function () {
+        if (input.validity.patternMismatch) {
+          icon.classList.add("fas", "fa-times", "text-danger");
+          icon.classList.remove("fa-check", "text-success");
+          feedback.textContent = "Please provide a valid Spotify link.";
+        } else {
+          icon.classList.add("fas", "fa-check", "text-success");
+          icon.classList.remove("fa-times", "text-danger");
+          feedback.textContent = "";
+        }
+      });
+
+      form.addEventListener("submit", function (event) {
+        if (!input.checkValidity()) {
+          event.preventDefault();
+          input.classList.add("is-invalid");
+        } else {
+          input.classList.remove("is-invalid");
+        }
+      });
+    </script>
+  </body>
+</html>
