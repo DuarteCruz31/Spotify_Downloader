@@ -10,8 +10,6 @@ from flask_cors import CORS
 import socket
 
 # Get the IP address of the computer
-
-
 def get_internal_ip():
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -23,8 +21,6 @@ def get_internal_ip():
         return None
 
 # Change the IP address in the HTML files
-
-
 def change_ip_address(ip_address):
     with open('templates/main.html', 'r') as file:
         filedata = file.read()
@@ -61,8 +57,6 @@ def home():
     return render_template('main.html')
 
 # Gets spotify playlist link and returns a list of track names
-
-
 @app.route('/playlist_link', methods=['POST'])
 def playlist_data():
     global spotify_client_id
@@ -90,8 +84,6 @@ def get_playlist_data():
     return jsonify(list)
 
 # Gets youtube video link and downloads it as mp3
-
-
 @app.route('/download_playlist', methods=['POST'])
 def download_playlist():
     selected_tracks = request.form.getlist('tracks')
@@ -117,8 +109,6 @@ def download_playlist():
     return response
 
 # Gets token to access spotify API
-
-
 def get_access_token(client_id, client_secret):
     message = f"{client_id}:{client_secret}"
     message_bytes = message.encode('ascii')
@@ -155,8 +145,6 @@ def get_tracks(url, access_token):
         return None
 
 # Gets tracks from an album
-
-
 def get_album_tracks(album_id, access_token):
     headers = {
         "Authorization": f"Bearer {access_token}"
@@ -177,8 +165,6 @@ def get_album_tracks(album_id, access_token):
     return track_names
 
 # Gets trackname
-
-
 def get_track(track_id, access_token):
     headers = {
         "Authorization": f"Bearer {access_token}"
@@ -195,8 +181,6 @@ def get_track(track_id, access_token):
     return track_name
 
 # Gets tracks from a playlist
-
-
 def get_playlist_tracks(playlist_id, access_token):
     headers = {
         "Authorization": f"Bearer {access_token}"
@@ -217,8 +201,6 @@ def get_playlist_tracks(playlist_id, access_token):
     return track_names
 
 # Downloads youtube video as mp3
-
-
 def download_ytvid_as_mp3(video_url):
     yt = pytube.YouTube(video_url)
     stream = yt.streams.filter(only_audio=True).first()
@@ -238,8 +220,6 @@ def download_ytvid_as_mp3(video_url):
     return new_file
 
 # Gets youtube video link from track name
-
-
 def get_youtube_link(track_name, api_key):
     base_search_url = 'https://www.googleapis.com/youtube/v3/search'
 
